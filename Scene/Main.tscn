@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://gpndbgqgllqm"]
+
+[ext_resource type="Script" path="res://Scripts/SudokuTable.cs" id="1_wq7yd"]
+[ext_resource type="Script" path="res://Scripts/Test.cs" id="2_85uhs"]
+
+[node name="SudokuTable" type="Node"]
+script = ExtResource("1_wq7yd")
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("SudokuTable")]
+script = ExtResource("2_85uhs")
+SudokuTable = NodePath("..")
