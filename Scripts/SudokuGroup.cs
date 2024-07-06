@@ -31,6 +31,7 @@ public partial class SudokuGroup : Node
         foreach (Vector2I c in Coords)
         {
             SudokuTile tile = table.GetTileByCoord(c);
+			
             if (tile.IsAppied)
             {
                 allValue.Remove(tile.Num);
@@ -49,7 +50,6 @@ public partial class SudokuGroup : Node
                     }
                 }
             }
-
         }
 
 		return allValue;

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 
 [GlobalClass]
@@ -147,7 +148,7 @@ public partial class SudokuTable : Node
         // part1 :remove possible num by simple detect
         foreach (SudokuTile tile in SudokuTiles)
         {
-            //if the tile isn't be appied, remove the possbleNum by the group;
+            //if the tile isn't be appied, remove the possibleNum by the group;
             if (!tile.IsAppied)
             {
                 foreach (SudokuGroup group in Groups)
@@ -159,7 +160,6 @@ public partial class SudokuTable : Node
                     {
                         if (tile.Coord == CoordInGroup)
                         {
-                            GD.Print("[Info]: " + "find " + tile.Coord + " in group");
                             isFind = true;
                             break;
                         }
@@ -168,7 +168,6 @@ public partial class SudokuTable : Node
                     if (isFind)
                     {
                         appiedNum = group.GetAppiedNum(this);
-                        GD.Print("[Info]: " + "appiedNum in group" + JsonSerializer.Serialize(appiedNum));
 
                         foreach (int i in appiedNum)
                         {
@@ -202,6 +201,20 @@ public partial class SudokuTable : Node
         }
     }
 
+    public void ApplyTileByPossibleNum()
+    {
+        foreach(SudokuTile tile in SudokuTiles)
+        {
+            if(!tile.IsAppied)
+            {
+                if(tile.PossibleNum.Count == 1)
+                {
+                    tile.Apply(tile.PossibleNum.Last());
+                }
+            }
+        }
+    }
+
     public void ApplyTileByCoord(Vector2I Coord, int Num)
     {
         foreach (SudokuTile tile in SudokuTiles)
@@ -228,11 +241,26 @@ public partial class SudokuTable : Node
         return null;
     }
 
+    public int GetUnAppliedCount()
+    {
+        int count = 0;
+
+        foreach(SudokuTile tile in SudokuTiles)
+        {
+            if(!tile.IsAppied)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     public void Print()
     {
         foreach (SudokuTile tile in SudokuTiles)
         {
-            GD.Print("[TileCoord]: " + tile.Coord + "  [TilePossibleNum]: " + JsonSerializer.Serialize(tile.PossibleNum) + "  [IsAppied]: " + tile.IsAppied);
+            GD.Print("[TileCoord]: " + tile.Coord + "  [TilePossibleNum]: " + JsonSerializer.Serialize(tile.PossibleNum) + "  [IsAppied]: " + tile.IsAppied + "  [Num]: " + tile.Num);
         }
     }
 }
