@@ -127,9 +127,9 @@ public partial class SudokuTable : Node
                     List<int> appiedNum = new();
                     bool isFind = false;
 
-                    foreach (SudokuTile tileInGroup in group.SudokuTiles)
+                    foreach (Vector2I CoordInGroup in group.Coords)
                     {
-                        if (tile.Coord == tileInGroup.Coord)
+                        if (tile.Coord == CoordInGroup)
                         {
 							GD.Print("[Info]: " + "find " + tile.Coord + " in group");
                             isFind = true;
@@ -139,7 +139,7 @@ public partial class SudokuTable : Node
 
                     if (isFind)
                     {
-                        appiedNum = group.GetAppiedNum();
+                        appiedNum = group.GetAppiedNum(this);
 						GD.Print("[Info]: " + "appiedNum in group" + JsonSerializer.Serialize(appiedNum));
 
                         foreach (int i in appiedNum)
@@ -164,6 +164,20 @@ public partial class SudokuTable : Node
 			}
 		}
 	}
+
+    public SudokuTile GetTileByCoord(Vector2I coord)
+    {
+        foreach(SudokuTile tile in SudokuTiles)
+        {
+            if(tile.Coord == coord)
+            {
+                return tile;
+            }
+        }
+
+        GD.PushError("Fail to get tile, return null");
+        return null;
+    }
 
     public void Print()
     {
