@@ -103,11 +103,38 @@ public partial class SudokuTable : Node
             new() { Coord = new(8,8) },
         };
 
-		Groups = new List<SudokuGroup>
-		{
-			GroupTemplate.NineSquareBox1,
-			GroupTemplate.NineSquareBox2,
-		};
+        Groups = new List<SudokuGroup>
+        {
+            GroupTemplate.NineSquareBox1,
+            GroupTemplate.NineSquareBox2,
+            GroupTemplate.NineSquareBox3,
+            GroupTemplate.NineSquareBox4,
+            GroupTemplate.NineSquareBox5,
+            GroupTemplate.NineSquareBox6,
+            GroupTemplate.NineSquareBox7,
+            GroupTemplate.NineSquareBox8,
+            GroupTemplate.NineSquareBox9,
+
+            GroupTemplate.VerticalLine1,
+            GroupTemplate.VerticalLine2,
+            GroupTemplate.VerticalLine3,
+            GroupTemplate.VerticalLine4,
+            GroupTemplate.VerticalLine5,
+            GroupTemplate.VerticalLine6,
+            GroupTemplate.VerticalLine7,
+            GroupTemplate.VerticalLine8,
+            GroupTemplate.VerticalLine9,
+
+            GroupTemplate.HorizontalLine1,
+            GroupTemplate.HorizontalLine2,
+            GroupTemplate.HorizontalLine3,
+            GroupTemplate.HorizontalLine4,
+            GroupTemplate.HorizontalLine5,
+            GroupTemplate.HorizontalLine6,
+            GroupTemplate.HorizontalLine7,
+            GroupTemplate.HorizontalLine8,
+            GroupTemplate.HorizontalLine9,
+        };
     }
 
     public void ReadTable(string tableConfig)
@@ -117,6 +144,7 @@ public partial class SudokuTable : Node
 
     public void Analyse()
     {
+        // part1 :remove possible num by simple detect
         foreach (SudokuTile tile in SudokuTiles)
         {
             //if the tile isn't be appied, remove the possbleNum by the group;
@@ -131,16 +159,16 @@ public partial class SudokuTable : Node
                     {
                         if (tile.Coord == CoordInGroup)
                         {
-							GD.Print("[Info]: " + "find " + tile.Coord + " in group");
+                            GD.Print("[Info]: " + "find " + tile.Coord + " in group");
                             isFind = true;
-							break;
+                            break;
                         }
                     }
 
                     if (isFind)
                     {
                         appiedNum = group.GetAppiedNum(this);
-						GD.Print("[Info]: " + "appiedNum in group" + JsonSerializer.Serialize(appiedNum));
+                        GD.Print("[Info]: " + "appiedNum in group" + JsonSerializer.Serialize(appiedNum));
 
                         foreach (int i in appiedNum)
                         {
@@ -149,27 +177,48 @@ public partial class SudokuTable : Node
                     }
                 }
             }
+        }
 
+        // part2 :remove possible num by the mutual exclusivity of each group
+        foreach (SudokuGroup group in Groups)
+        {
+            List<int> uniqueNums = group.GetUniqueValueInPossibleNum(this);
+
+            foreach (Vector2I coord in group.Coords)
+            {
+                var tile = GetTileByCoord(coord);
+
+                if (!tile.IsAppied)
+                {
+                    foreach (int uniqueNum in uniqueNums)
+                    {
+                        if (tile.PossibleNum.Contains(uniqueNum))
+                        {
+                            tile.PossibleNum = new() { uniqueNum };
+                        }
+                    }
+                }
+            }
         }
     }
 
-	public void ApplyTileByCoord(Vector2I Coord, int Num)
-	{
-		foreach(SudokuTile tile in SudokuTiles)
-		{
-			if(tile.Coord == Coord)
-			{
-				tile.Apply(Num);
-				break;
-			}
-		}
-	}
+    public void ApplyTileByCoord(Vector2I Coord, int Num)
+    {
+        foreach (SudokuTile tile in SudokuTiles)
+        {
+            if (tile.Coord == Coord)
+            {
+                tile.Apply(Num);
+                break;
+            }
+        }
+    }
 
     public SudokuTile GetTileByCoord(Vector2I coord)
     {
-        foreach(SudokuTile tile in SudokuTiles)
+        foreach (SudokuTile tile in SudokuTiles)
         {
-            if(tile.Coord == coord)
+            if (tile.Coord == coord)
             {
                 return tile;
             }
