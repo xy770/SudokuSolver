@@ -53,36 +53,13 @@ public partial class Test : Node
         SudokuTable.ApplyTileByCoord(new(5, 0), 2);
         SudokuTable.ApplyTileByCoord(new(6, 0), 5);
 
-        SudokuTable.Analyse();
-        SudokuTable.Print();
-        SudokuTable.ApplyTileByPossibleNum();
-        GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
-        SudokuTable.Print();
-
-        SudokuTable.Analyse();
-        SudokuTable.Print();
-        SudokuTable.ApplyTileByPossibleNum();
-        GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
-        SudokuTable.Print();
-
-        SudokuTable.Analyse();
-        SudokuTable.ApplyTileByPossibleNum();
-        GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
-
-        SudokuTable.Analyse();
-        SudokuTable.ApplyTileByPossibleNum();
-        GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
-
-        SudokuTable.Analyse();
-        SudokuTable.ApplyTileByPossibleNum();
-        GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
-
-        SudokuTable.Analyse();
-        SudokuTable.ApplyTileByPossibleNum();
-        GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
-
-        SudokuTable.Analyse();
-        SudokuTable.ApplyTileByPossibleNum();
-        GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
+        while (SudokuTable.GetUnAppliedCount() != 0)
+        {
+            SudokuTable.Analyse();
+            SudokuTable.Print();
+            SudokuTable.ApplyTileByPossibleNum();
+            GD.Print("[Info]: " + "UnAppliedCount = " + SudokuTable.GetUnAppliedCount());
+            SudokuTable.Print();
+        }
     }
 }

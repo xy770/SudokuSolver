@@ -6,6 +6,6 @@
 [node name="SudokuTable" type="Node"]
 script = ExtResource("1_wq7yd")
 
-[node name="Node" type="Node" parent="." node_paths=PackedStringArray("SudokuTable")]
+[node name="Test" type="Node" parent="." node_paths=PackedStringArray("SudokuTable")]
 script = ExtResource("2_85uhs")
 SudokuTable = NodePath("..")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://dciaqx8xy5mcv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dqr75"]
+
+[node name="SudokuTileBox" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "1"
+label_settings = SubResource("LabelSettings_dqr75")
