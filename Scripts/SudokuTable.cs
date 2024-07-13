@@ -294,6 +294,11 @@ public partial class SudokuTable : Node2D
     {
         SudokuTile tile = GetTileByCoord(Coord);
 
+        if(tile.PossibleNum.Count == 0)
+        {
+            return;
+        }
+        
         tile?.Apply(tile.PossibleNum.Last());
     }
 

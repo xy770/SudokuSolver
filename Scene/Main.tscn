@@ -17,4 +17,22 @@ offset_bottom = 160.0
 theme_override_font_sizes/font_size = 70
 text = "Caculate"
 
+[node name="Guess" type="Button" parent="."]
+offset_left = 467.0
+offset_top = 253.0
+offset_right = 696.0
+offset_bottom = 366.0
+theme_override_font_sizes/font_size = 76
+text = "Guess"
+
+[node name="Clean" type="Button" parent="."]
+offset_left = 478.0
+offset_top = 368.0
+offset_right = 707.0
+offset_bottom = 481.0
+theme_override_font_sizes/font_size = 76
+text = "Clean"
+
 [connection signal="pressed" from="Caculate" to="." method="Caculate"]
+[connection signal="pressed" from="Guess" to="." method="Guess"]
+[connection signal="pressed" from="Clean" to="." method="Clean"]
