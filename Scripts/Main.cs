@@ -8,7 +8,7 @@ public partial class Main : Node2D
 
     private readonly int _maxCaculateTime = 10;
 
-    public void Caculate()
+    public void Calculate()
     {
         var count = 0;
         while (SudokuTable.GetUnAppliedCount() != 0 && count <= _maxCaculateTime)

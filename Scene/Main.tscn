@@ -9,13 +9,13 @@ SudokuTable = NodePath("SudokuTable")
 
 [node name="SudokuTable" parent="." instance=ExtResource("1_fco4a")]
 
-[node name="Caculate" type="Button" parent="."]
+[node name="Calculate" type="Button" parent="."]
 offset_left = 461.0
 offset_top = 129.0
 offset_right = 536.0
 offset_bottom = 160.0
 theme_override_font_sizes/font_size = 70
-text = "Caculate"
+text = "Calculate"
 
 [node name="Guess" type="Button" parent="."]
 offset_left = 467.0
@@ -33,6 +33,6 @@ offset_bottom = 481.0
 theme_override_font_sizes/font_size = 76
 text = "Clean"
 
-[connection signal="pressed" from="Caculate" to="." method="Caculate"]
+[connection signal="pressed" from="Calculate" to="." method="Calculate"]
 [connection signal="pressed" from="Guess" to="." method="Guess"]
 [connection signal="pressed" from="Clean" to="." method="Clean"]
