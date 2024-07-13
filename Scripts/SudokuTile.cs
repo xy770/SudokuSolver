@@ -47,6 +47,13 @@ public partial class SudokuTile : Node2D
         PossibleNum = null;
     }
 
+    public void UnApply()
+    {
+        IsAppied = false;
+        Num = 0;
+        PossibleNum = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    }
+
     public void MouseEnter()
     {
         _isMouseIn = true;
@@ -96,6 +103,10 @@ public partial class SudokuTile : Node2D
             else if (@event.IsActionPressed("9"))
             {
                 Apply(9);
+            }
+            else if(@event.IsActionPressed("clean"))
+            {
+                UnApply();
             }
         }
     }
