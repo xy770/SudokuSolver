@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://m8qwlevlsg2d"]
+
+[ext_resource type="Script" path="res://Scripts/SudokuTable.cs" id="1_oq4ft"]
+
+[node name="SudokuTable" type="Node2D" node_paths=PackedStringArray("GridContainer")]
+scale = Vector2(3, 3)
+script = ExtResource("1_oq4ft")
+GridContainer = NodePath("GridContainer")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 264.0
+offset_bottom = 264.0
+theme_override_constants/h_separation = 31
+theme_override_constants/v_separation = 31
+columns = 9

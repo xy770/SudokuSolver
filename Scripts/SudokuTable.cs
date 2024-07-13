@@ -5,13 +5,20 @@ using System.Text.Json;
 
 [Icon("res://Assets/Icon/SudokuTable.png")]
 [GlobalClass]
-public partial class SudokuTable : Node
+public partial class SudokuTable : Node2D
 {
+    [Export]
+    public GridContainer GridContainer;
+
     public List<SudokuGroup> Groups { get; set; }
     public List<SudokuTile> SudokuTiles { get; set; }
 
+    PackedScene SudokuTilePanel = GD.Load<PackedScene>("res://Scene/SudokuTilePanel.tscn");
+    PackedScene SudokuTileComponent = GD.Load<PackedScene>("res://Scene/SudokuTileComponent.tscn");
+
     public override void _Ready()
     {
+        // init data
         SudokuTiles =
         new List<SudokuTile>{
             new() { Coord = new(0,0) },
@@ -137,11 +144,26 @@ public partial class SudokuTable : Node
             GroupTemplate.HorizontalLine8,
             GroupTemplate.HorizontalLine9,
         };
-    }
 
-    public void ReadTable(string tableConfig)
-    {
+        // init ui
+        if (GridContainer != null)
+        {
+            int count = 0;
+            foreach (SudokuTile tile in SudokuTiles)
+            {
+                count++;
 
+                var panelInstance = SudokuTilePanel.Instantiate();
+                var tileComponentInstance = SudokuTileComponent.Instantiate();
+
+                panelInstance.Name = "Panel" + count.ToString();
+                GridContainer.AddChild(panelInstance);
+                panelInstance.AddChild(tile);
+
+                tile.AddChild(tileComponentInstance);
+                tile.NumLabel = tileComponentInstance.GetNode<Label>("Num");
+            }
+        }
     }
 
     public void Analyse()
@@ -204,11 +226,11 @@ public partial class SudokuTable : Node
 
     public void ApplyTileByPossibleNum()
     {
-        foreach(SudokuTile tile in SudokuTiles)
+        foreach (SudokuTile tile in SudokuTiles)
         {
-            if(!tile.IsAppied)
+            if (!tile.IsAppied)
             {
-                if(tile.PossibleNum.Count == 1)
+                if (tile.PossibleNum.Count == 1)
                 {
                     tile.Apply(tile.PossibleNum.Last());
                 }
@@ -246,9 +268,9 @@ public partial class SudokuTable : Node
     {
         int count = 0;
 
-        foreach(SudokuTile tile in SudokuTiles)
+        foreach (SudokuTile tile in SudokuTiles)
         {
-            if(!tile.IsAppied)
+            if (!tile.IsAppied)
             {
                 count++;
             }

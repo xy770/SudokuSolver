@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://7gp1mu4m6vl1"]
+
+[ext_resource type="Script" path="res://Scripts/SudokuTile.cs" id="1_e1h5i"]
+[ext_resource type="PackedScene" uid="uid://reabnvu3g8bi" path="res://Scene/SudokuTileComponent.tscn" id="2_4c1ym"]
+
+[node name="SudokuTile" type="Node2D"]
+script = ExtResource("1_e1h5i")
+
+[node name="SudokuTileComponent" parent="." instance=ExtResource("2_4c1ym")]
