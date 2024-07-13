@@ -162,6 +162,9 @@ public partial class SudokuTable : Node2D
 
                 tile.AddChild(tileComponentInstance);
                 tile.NumLabel = tileComponentInstance.GetNode<Label>("Num");
+                tile.Area2D = tileComponentInstance.GetNode<Area2D>("Area2D");
+                tile.Area2D.MouseEntered += tile.MouseEnter;
+                tile.Area2D.MouseExited += tile.MouseExit;
             }
         }
     }
@@ -285,5 +288,25 @@ public partial class SudokuTable : Node2D
         {
             GD.Print("[TileCoord]: " + tile.Coord + "  [TilePossibleNum]: " + JsonSerializer.Serialize(tile.PossibleNum) + "  [IsAppied]: " + tile.IsAppied + "  [Num]: " + tile.Num);
         }
+    }
+
+    public void GuessTile(Vector2I Coord)
+    {
+        SudokuTile tile = GetTileByCoord(Coord);
+
+        tile?.Apply(tile.PossibleNum.Last());
+    }
+
+    public Vector2I GetFirstUnApplyTileCoord()
+    {
+        foreach (SudokuTile tile in SudokuTiles)
+        {
+            if (!tile.IsAppied)
+            {
+                return tile.Coord;
+            }
+        }
+
+        return new Vector2I(-1, -1);
     }
 }

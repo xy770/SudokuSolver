@@ -7,3 +7,5 @@
 script = ExtResource("1_e1h5i")
 
 [node name="SudokuTileComponent" parent="." instance=ExtResource("2_4c1ym")]
+
+[editable path="SudokuTileComponent"]

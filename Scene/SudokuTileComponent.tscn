@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://reabnvu3g8bi"]
+[gd_scene load_steps=4 format=3 uid="uid://reabnvu3g8bi"]
 
 [ext_resource type="Texture2D" uid="uid://viua4d4kfjdf" path="res://Assets/Sprite/Tile.png" id="1_2bpgm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8dek4"]
 font_size = 32
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yp1ge"]
+size = Vector2(30, 30)
 
 [node name="SudokuTileComponent" type="Node2D"]
 
@@ -27,3 +30,10 @@ label_settings = SubResource("LabelSettings_8dek4")
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+z_index = 100
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+z_index = 100
+shape = SubResource("RectangleShape2D_yp1ge")
