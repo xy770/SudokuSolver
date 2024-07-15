@@ -302,25 +302,20 @@ public partial class SudokuTable : Node2D
 
     public void GuessTile()
     {
+        Analyse();
+        
         foreach (SudokuTile tile in SudokuTiles)
         {
             if (!tile.IsAppied)
             {
-                if (tile.Coord == new Vector2I(0, 7))
-                {
-                    Print();
-                }
-
                 var cachedTiles = CacheTiles();
-
-                Analyse();
 
                 foreach (int i in tile.PossibleNum)
                 {
                     tile.Apply(i);
                     Analyse();
 
-                    var maxCalculateTime = 1;
+                    var maxCalculateTime = 10;
                     var count = 0;
 
                     while (count <= maxCalculateTime)
@@ -337,11 +332,6 @@ public partial class SudokuTable : Node2D
                     }
 
                     UnpackTiles(cachedTiles);
-
-                    if (tile.Coord == new Vector2I(0, 7))
-                    {
-                        Print();
-                    }
                 }
             }
         }
