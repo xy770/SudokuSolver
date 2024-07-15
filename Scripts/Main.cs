@@ -1,17 +1,18 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Main : Node2D
 {
     [Export]
     public SudokuTable SudokuTable;
 
-    private readonly int _maxCaculateTime = 10;
+    private readonly int _maxCalculateTime = 10;
 
     public void Calculate()
     {
         var count = 0;
-        while (SudokuTable.GetUnAppliedCount() != 0 && count <= _maxCaculateTime)
+        while (SudokuTable.GetUnAppliedCount() != 0 && count <= _maxCalculateTime)
         {
             count++;
 
@@ -24,18 +25,7 @@ public partial class Main : Node2D
 
     public void Guess()
     {
-        int count = 0;
-        while (SudokuTable.GetUnAppliedCount() != 0 && count <= _maxCaculateTime)
-        {
-            count++;
-
-            SudokuTable.Analyse();
-            SudokuTable.ApplyTileByPossibleNum();
-        }
-
-		SudokuTable.Analyse();
-
-        SudokuTable.GuessTile(SudokuTable.GetFirstUnApplyTileCoord());
+        SudokuTable.GuessTile();
     }
 
 	public void Clean()

@@ -171,6 +171,8 @@ public partial class SudokuTable : Node2D
 
     public void Analyse()
     {
+        ResetPossibleNum();
+
         // part1 :remove possible num by simple detect
         foreach (SudokuTile tile in SudokuTiles)
         {
@@ -224,6 +226,14 @@ public partial class SudokuTable : Node2D
                     }
                 }
             }
+        }
+    }
+
+    public void ResetPossibleNum()
+    {
+        foreach (SudokuTile tile in SudokuTiles)
+        {
+            tile.ResetPossibleNum();
         }
     }
 
@@ -290,16 +300,51 @@ public partial class SudokuTable : Node2D
         }
     }
 
-    public void GuessTile(Vector2I Coord)
+    public void GuessTile()
     {
-        SudokuTile tile = GetTileByCoord(Coord);
-
-        if(tile.PossibleNum.Count == 0)
+        foreach (SudokuTile tile in SudokuTiles)
         {
-            return;
+            if (!tile.IsAppied)
+            {
+                if (tile.Coord == new Vector2I(0, 7))
+                {
+                    Print();
+                }
+
+                var cachedTiles = CacheTiles();
+
+                Analyse();
+
+                foreach (int i in tile.PossibleNum)
+                {
+                    tile.Apply(i);
+                    Analyse();
+
+                    var maxCalculateTime = 1;
+                    var count = 0;
+
+                    while (count <= maxCalculateTime)
+                    {
+                        if (GetUnAppliedCount() == 0)
+                        {
+                            return;
+                        }
+
+                        count++;
+
+                        Analyse();
+                        ApplyTileByPossibleNum();
+                    }
+
+                    UnpackTiles(cachedTiles);
+
+                    if (tile.Coord == new Vector2I(0, 7))
+                    {
+                        Print();
+                    }
+                }
+            }
         }
-        
-        tile?.Apply(tile.PossibleNum.Last());
     }
 
     public Vector2I GetFirstUnApplyTileCoord()
@@ -314,4 +359,58 @@ public partial class SudokuTable : Node2D
 
         return new Vector2I(-1, -1);
     }
+
+    public bool CheckConflict()
+    {
+        return false;
+    }
+
+    public List<CachedSudokuTile> CacheTiles()
+    {
+        List<CachedSudokuTile> ctiles = new();
+
+        foreach (SudokuTile tile in SudokuTiles)
+        {
+            CachedSudokuTile ctile = new()
+            {
+                Coord = tile.Coord,
+                PossibleNum = tile.PossibleNum,
+                IsAppied = tile.IsAppied,
+                Num = tile.Num
+            };
+
+            ctiles.Add(ctile);
+        }
+
+        return ctiles;
+    }
+
+    public void UnpackTiles(List<CachedSudokuTile> ctiles)
+    {
+        foreach(CachedSudokuTile ctile in ctiles)
+        {
+            foreach(SudokuTile tile in SudokuTiles)
+            {
+                if(tile.Coord == ctile.Coord)
+                {
+                    tile.PossibleNum = ctile.PossibleNum;
+                    tile.IsAppied = ctile.IsAppied;
+                    tile.Num = ctile.Num;
+
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
+public class CachedSudokuTile
+{
+    public Vector2I Coord { get; set; }
+    public List<int> PossibleNum { get; set; }
+    [Export]
+    public bool IsAppied { get; set; }
+    [Export]
+    public int Num { get; set; }
 }

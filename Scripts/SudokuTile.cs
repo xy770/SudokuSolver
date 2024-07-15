@@ -12,13 +12,13 @@ public partial class SudokuTile : Node2D
     [ExportGroup("TileInfo")]
     [Export]
     public Vector2I Coord { get; set; }
-    public List<int> PossibleNum = new() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    public List<int> PossibleNum { get; set; } = new() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     [Export]
-    public bool IsAppied = false;
+    public bool IsAppied { get; set; } = false;
     [Export]
     public int Num { get; set; }
 
-    private bool _isMouseIn = false;
+    private bool IsMouseIn { get; set; } = false;
 
     public override void _Ready()
     {
@@ -54,19 +54,27 @@ public partial class SudokuTile : Node2D
         PossibleNum = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     }
 
+    public void ResetPossibleNum()
+    {
+        if (!IsAppied)
+        {
+            PossibleNum = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        }
+    }
+
     public void MouseEnter()
     {
-        _isMouseIn = true;
+        IsMouseIn = true;
     }
 
     public void MouseExit()
     {
-        _isMouseIn = false;
+        IsMouseIn = false;
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (_isMouseIn)
+        if (IsMouseIn)
         {
             if (@event.IsActionPressed("1"))
             {
@@ -104,7 +112,7 @@ public partial class SudokuTile : Node2D
             {
                 Apply(9);
             }
-            else if(@event.IsActionPressed("clean"))
+            else if (@event.IsActionPressed("clean"))
             {
                 UnApply();
             }
