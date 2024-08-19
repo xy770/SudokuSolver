@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 [Icon("res://Assets/Icon/SudokuTable.png")]
 [GlobalClass]
@@ -303,7 +304,7 @@ public partial class SudokuTable : Node2D
     public void GuessTile()
     {
         Analyse();
-        
+
         foreach (SudokuTile tile in SudokuTiles)
         {
             if (!tile.IsAppied)
@@ -352,6 +353,25 @@ public partial class SudokuTable : Node2D
 
     public bool CheckConflict()
     {
+        foreach (SudokuGroup group in Groups)
+        {
+            List<int> appliedNum = new();
+            foreach (Vector2I coord in group.Coords)
+            {
+                var tile = GetTileByCoord(coord);
+
+                if (tile.IsAppied)
+                {
+                    if (appliedNum.Contains(tile.Num))
+                    {
+                        return true;
+                    }
+
+                    appliedNum.Add(tile.Num);
+                }
+            }
+        }
+
         return false;
     }
 
@@ -377,11 +397,11 @@ public partial class SudokuTable : Node2D
 
     public void UnpackTiles(List<CachedSudokuTile> ctiles)
     {
-        foreach(CachedSudokuTile ctile in ctiles)
+        foreach (CachedSudokuTile ctile in ctiles)
         {
-            foreach(SudokuTile tile in SudokuTiles)
+            foreach (SudokuTile tile in SudokuTiles)
             {
-                if(tile.Coord == ctile.Coord)
+                if (tile.Coord == ctile.Coord)
                 {
                     tile.PossibleNum = ctile.PossibleNum;
                     tile.IsAppied = ctile.IsAppied;
